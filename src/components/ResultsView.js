@@ -66,7 +66,7 @@ const ResultsView = ({ extractedData, originalFile, onClear, onCopyText }) => {
       )}
 
       {/* Structured Data */}
-      {extractedData.structuredData &&
+      {/* {extractedData.structuredData &&
         Object.keys(extractedData.structuredData).length > 0 && (
           <Box sx={{ mb: 4 }}>
             <Typography variant="h6" gutterBottom>
@@ -93,7 +93,7 @@ const ResultsView = ({ extractedData, originalFile, onClear, onCopyText }) => {
               )}
             </Grid>
           </Box>
-        )}
+        )} */}
 
       {/* Raw Text */}
       <Box>
