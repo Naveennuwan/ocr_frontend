@@ -20,7 +20,6 @@ const FileUpload = ({
   onUpload,
   file,
   loading,
-  error,
 }) => {
   const onDrop = React.useCallback(
     (acceptedFiles) => {

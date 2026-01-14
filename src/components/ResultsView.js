@@ -6,13 +6,10 @@ import {
   Grid,
   Chip,
   Button,
-  Alert,
 } from '@mui/material';
 import {
   ContentCopy,
-  Download,
   CheckCircle,
-  Error as ErrorIcon,
 } from '@mui/icons-material';
 import DownloadOptions from './DownloadOptions.js';
 
