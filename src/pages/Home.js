@@ -11,7 +11,7 @@ const Home = () => {
   const [uploading, setUploading] = useState(false);
   const [extractedData, setExtractedData] = useState(null);
   const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+  const [setSuccess] = useState(null);
 
   const handleFileSelect = (selectedFile, errorMsg = null) => {
     setFile(selectedFile);
