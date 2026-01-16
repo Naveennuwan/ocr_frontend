@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 // API Configuration
-const RAILWAY_API_URL = 'https://ocrbackend-production-b237.up.railway.app';
+// const RAILWAY_API_URL = 'https://ocrbackend-production-b237.up.railway.app';
+const RAILWAY_API_URL = 'http://localhost:5050';
 
 // Create axios instance with default config
 const api = axios.create({

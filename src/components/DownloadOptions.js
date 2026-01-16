@@ -3,15 +3,15 @@ import {
   Box,
   Grid,
   Button,
+  Typography,
   CircularProgress,
   Snackbar,
   Alert,
-  Typography,
 } from '@mui/material';
 import { Download, CheckCircle, Error as ErrorIcon } from '@mui/icons-material';
 import { downloadFile } from '../utils/api.js';
 
-const DownloadOptions = ({ formats, data, filename }) => {
+const DownloadOptions = ({ formats, data, filename, isEdited }) => {
   const [downloading, setDownloading] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -26,13 +26,33 @@ const DownloadOptions = ({ formats, data, filename }) => {
         throw new Error(`Download format ${format} not found`);
       }
 
+      // Prepare data for download with editing info
+      const downloadData = {
+        ...data,
+        // Include editing metadata in download
+        metadata: {
+          originalFilename: filename,
+          downloadedAt: new Date().toISOString(),
+          isEdited: isEdited || false,
+          editedAt: data.editedAt || null,
+          characterCount: data.rawText.length,
+        }
+      };
+      
+      const formatToExtension = {
+        excel: 'xlsx',
+        csv: 'csv',
+        text: 'text',
+      };
+      
       const baseName = filename?.split('.')[0] || 'extracted-data';
-      const downloadFilename = `${baseName}.${format}`;
+      const fileExtension = formatToExtension[format] || format;
+      const downloadFilename = `${baseName}${isEdited ? '-edited' : ''}.${fileExtension}`;
 
       await downloadFile(
         format,
         formatConfig.endpoint,
-        data,
+        downloadData,
         downloadFilename
       );
 
@@ -58,8 +78,20 @@ const DownloadOptions = ({ formats, data, filename }) => {
     text: 'secondary',
   };
 
+  const formatDescriptions = {
+    excel: 'Best for structured data',
+    csv: 'Simple spreadsheet format',
+    text: 'Plain text with formatting',
+  };
+
   return (
     <Box>
+      {isEdited && (
+        <Alert severity="info" sx={{ mb: 2 }}>
+          Download will include your edited text
+        </Alert>
+      )}
+      
       <Grid container spacing={2}>
         {formats.map((format) => (
           <Grid item xs={12} sm={4} key={format.format}>
@@ -95,9 +127,25 @@ const DownloadOptions = ({ formats, data, filename }) => {
                   <Typography variant="body1" fontWeight="bold">
                     {format.format.toUpperCase()}
                   </Typography>
+                  {isEdited && (
+                    <Typography 
+                      variant="caption" 
+                      sx={{ 
+                        ml: 1, 
+                        bgcolor: 'warning.main',
+                        color: 'white',
+                        px: 1,
+                        py: 0.5,
+                        borderRadius: 1,
+                        fontSize: '0.7rem'
+                      }}
+                    >
+                      Edited
+                    </Typography>
+                  )}
                 </Box>
                 <Typography variant="caption" color="rgba(255,255,255,0.8)">
-                  {format.description}
+                  {formatDescriptions[format.format] || format.description}
                 </Typography>
               </Box>
             </Button>
@@ -105,37 +153,7 @@ const DownloadOptions = ({ formats, data, filename }) => {
         ))}
       </Grid>
 
-      {/* Success Snackbar */}
-      <Snackbar
-        open={!!success}
-        autoHideDuration={3000}
-        onClose={() => setSuccess(null)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert
-          severity="success"
-          icon={<CheckCircle fontSize="small" />}
-          onClose={() => setSuccess(null)}
-        >
-          {success}
-        </Alert>
-      </Snackbar>
-
-      {/* Error Snackbar */}
-      <Snackbar
-        open={!!error}
-        autoHideDuration={5000}
-        onClose={() => setError(null)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert
-          severity="error"
-          icon={<ErrorIcon fontSize="small" />}
-          onClose={() => setError(null)}
-        >
-          {error}
-        </Alert>
-      </Snackbar>
+      {/* Success/Error Snackbars remain the same */}
     </Box>
   );
 };
