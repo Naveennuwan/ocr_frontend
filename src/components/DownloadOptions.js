@@ -12,8 +12,8 @@ import { downloadFile } from '../utils/api.js';
 
 const DownloadOptions = ({ formats, data, filename, isEdited }) => {
   const [downloading, setDownloading] = useState(null);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
+  const [setError] = useState(null);
+  const [setSuccess] = useState(null);
 
   const handleDownload = async (format) => {
     setDownloading(format);
