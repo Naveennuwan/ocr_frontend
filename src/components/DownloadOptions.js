@@ -5,10 +5,9 @@ import {
   Button,
   Typography,
   CircularProgress,
-  Snackbar,
   Alert,
 } from '@mui/material';
-import { Download, CheckCircle, Error as ErrorIcon } from '@mui/icons-material';
+import { Download } from '@mui/icons-material';
 import { downloadFile } from '../utils/api.js';
 
 const DownloadOptions = ({ formats, data, filename, isEdited }) => {
