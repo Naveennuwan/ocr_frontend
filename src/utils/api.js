@@ -1,12 +1,18 @@
 import axios from 'axios';
 
-// API Configuration
-// const RAILWAY_API_URL = 'https://ocrbackend-production-b237.up.railway.app';
-const RAILWAY_API_URL = 'http://localhost:5050';
+// API Configuration - Using environment variables
+const getApiBaseUrl = () => {
+  // For production (Railway, Vercel, etc.)
+  if (process.env.NODE_ENV === 'production') {
+    return 'https://ocrbackend-production-b237.up.railway.app';
+  }
+  // For development
+  return 'http://localhost:5050';
+};
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: RAILWAY_API_URL,
+  baseURL: getApiBaseUrl(),
   timeout: 30000, // 30 seconds timeout
   headers: {
     'Content-Type': 'application/json',
