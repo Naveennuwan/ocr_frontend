@@ -11,7 +11,6 @@ const Home = () => {
   const [uploading, setUploading] = useState(false);
   const [extractedData, setExtractedData] = useState(null);
   const [error, setError] = useState(null);
-  const [setSuccess] = useState(null);
 
   const handleFileSelect = (selectedFile, errorMsg = null) => {
     setFile(selectedFile);
@@ -49,7 +48,6 @@ const Home = () => {
         };
         
         setExtractedData(dataWithEditInfo);
-        setSuccess('File processed successfully!');
       } else {
         setError(result.error || 'Failed to process file');
       }
@@ -63,18 +61,16 @@ const Home = () => {
 
   const handleTextUpdate = (updatedData) => {
     setExtractedData(updatedData);
-    setSuccess('Text updated successfully!');
   };
 
   const handleClearResults = () => {
     setExtractedData(null);
     setFile(null);
     setError(null);
-    setSuccess(null);
   };
 
   const handleCopyText = () => {
-    setSuccess('Text copied to clipboard!');
+    // setSuccess('Text copied to clipboard!');
   };
 
   return (

@@ -12,12 +12,9 @@ import { downloadFile } from '../utils/api.js';
 
 const DownloadOptions = ({ formats, data, filename, isEdited }) => {
   const [downloading, setDownloading] = useState(null);
-  const [setError] = useState(null);
-  const [setSuccess] = useState(null);
 
   const handleDownload = async (format) => {
     setDownloading(format);
-    setError(null);
 
     try {
       const formatConfig = formats.find((f) => f.format === format);
@@ -54,11 +51,9 @@ const DownloadOptions = ({ formats, data, filename, isEdited }) => {
         downloadData,
         downloadFilename
       );
-
-      setSuccess(`Downloaded as ${format.toUpperCase()} successfully!`);
-      setTimeout(() => setSuccess(null), 3000);
+      
+      setTimeout(3000);
     } catch (err) {
-      setError(`Failed to download ${format}: ${err.message}`);
       console.error('Download error:', err);
     } finally {
       setDownloading(null);
